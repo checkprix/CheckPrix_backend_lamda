@@ -1,0 +1,41 @@
+service: checkprix
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: af-south-1
+  stage: prod
+  timeout: 29
+
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi: '*'
+        cors: true
+        origins:
+            - 'https://www.checkprix.net'
+        headers: 
+          - Content-Type
+          # - X-Api-Key
+          # - Access-Control-Allow-Headers
+          # - Access-Control-Allow-Origin
+          # - Access-Control-Allow-Methods
+          # - Access-Control-Allow-Credentials
+        allowCredentials: true
+        
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+
+# domains:
+#   dev: dev-api.washerzone.com
